@@ -14,9 +14,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listen for authentication state changes
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
       setLoading(false);
     });
 
@@ -24,23 +23,23 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading state while Firebase checks auth status
+    return (
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <h2>Loading...</h2>
+      </div>
+    );
   }
 
   return (
     <Router>
       <Navbar />
       <Routes>
-        {/* Public Pages */}
-        <Route path="/" element={user ? <Navigate to="/profile" /> : <Profile />} />
+        <Route path="/" element={user ? <Navigate to="/profile" /> : <HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/calender" element={<Calender />} />
         <Route path="/community" element={<Community />} />
-        {/* Protected Route for Profile */}
         <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/" />} />
-
-        {/* Redirect all unknown paths to Home */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />

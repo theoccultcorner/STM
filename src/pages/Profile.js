@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db, storage } from "../firebaseConfig";
-import { doc, setDoc, onSnapshot } from "firebase/firestore"; // ✅ Removed 'getDoc'
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signOut } from "firebase/auth";
 import { Box, Typography, TextField, Button, Avatar, CircularProgress } from "@mui/material";
@@ -17,7 +17,6 @@ const Profile = () => {
   const [newPhoto, setNewPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch user profile
   useEffect(() => {
     if (auth.currentUser) {
       const userRef = doc(db, "users", auth.currentUser.uid);
@@ -36,10 +35,11 @@ const Profile = () => {
       });
 
       return () => unsubscribe();
+    } else {
+      setLoading(false);
     }
   }, []);
 
-  // Calculate clean time
   const calculateCleanTime = (date) => {
     if (date) {
       const cleanStartDate = dayjs(date);
@@ -49,7 +49,6 @@ const Profile = () => {
     }
   };
 
-  // Handle Profile Updates
   const handleSaveProfile = async () => {
     if (!auth.currentUser) return;
 
