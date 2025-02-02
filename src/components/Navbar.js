@@ -114,7 +114,7 @@ const Navbar = () => {
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpen(false)}>
           <List>
-            <ListItem button component={Link} to="/Home">
+            <ListItem button component={Link} to="/Hom">
               <ListItemText primary="Home" />
             </ListItem>
             <ListItem button component={Link} to="/about">
