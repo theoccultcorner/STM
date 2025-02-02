@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth, db, storage } from "../firebaseConfig";
+import { doc, setDoc, onSnapshot } from "firebase/firestore"; // ✅ Removed 'getDoc'
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signOut } from "firebase/auth";
 import { Box, Typography, TextField, Button, Avatar, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
@@ -10,42 +10,36 @@ import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("Anonymous");
   const [cleanDate, setCleanDate] = useState("");
   const [cleanTime, setCleanTime] = useState("");
   const [photoURL, setPhotoURL] = useState("");
-  const [uploading, setUploading] = useState(false);
+  const [newPhoto, setNewPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch user profile
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (auth.currentUser) {
-        const userRef = doc(db, "users", auth.currentUser.uid);
-        const userSnap = await getDoc(userRef);
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
 
-        if (userSnap.exists()) {
-          const userData = userSnap.data();
-          setUser(auth.currentUser);
-          setUsername(userData.username || "Anonymous");
+      const unsubscribe = onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setUsername(userData.displayName || "Anonymous");
           setCleanDate(userData.cleanDate || "");
-          setPhotoURL(userData.photoURL || auth.currentUser.photoURL || "");
+          setPhotoURL(userData.photoURL || "");
           calculateCleanTime(userData.cleanDate);
         } else {
-          await setDoc(userRef, {
-            username: "Anonymous",
-            cleanDate: "",
-            photoURL: auth.currentUser.photoURL || "",
-          });
-          setUsername("Anonymous");
+          setDoc(userRef, { displayName: "Anonymous", cleanDate: "", photoURL: "" });
         }
-      }
-      setLoading(false);
-    };
+        setLoading(false);
+      });
 
-    fetchUserProfile();
+      return () => unsubscribe();
+    }
   }, []);
 
+  // Calculate clean time
   const calculateCleanTime = (date) => {
     if (date) {
       const cleanStartDate = dayjs(date);
@@ -55,111 +49,46 @@ const Profile = () => {
     }
   };
 
+  // Handle Profile Updates
   const handleSaveProfile = async () => {
     if (!auth.currentUser) return;
 
     const userRef = doc(db, "users", auth.currentUser.uid);
-    await setDoc(userRef, {
-      username,
-      cleanDate,
-      photoURL,
-    }, { merge: true });
+    await setDoc(userRef, { displayName: username, cleanDate, photoURL }, { merge: true });
 
-    calculateCleanTime(cleanDate);
+    if (newPhoto) {
+      const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
+      await uploadBytes(storageRef, newPhoto);
+      const downloadURL = await getDownloadURL(storageRef);
+      setPhotoURL(downloadURL);
+      await setDoc(userRef, { photoURL: downloadURL }, { merge: true });
+    }
   };
 
   const handleLogout = async () => {
     await signOut(auth);
-    window.location.href = "/"; // Redirect to home page
+    window.location.href = "/";
   };
 
-  const handleUploadPhoto = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    setUploading(true);
-    const storage = getStorage();
-    const storageRef = ref(storage, `profileImages/${auth.currentUser.uid}`);
-
-    try {
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
-      setPhotoURL(downloadURL);
-
-      // Save the new profile image to Firestore
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      await setDoc(userRef, { photoURL: downloadURL }, { merge: true });
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  if (loading) {
-    return <Typography variant="h6" align="center">Loading...</Typography>;
-  }
+  if (loading) return <CircularProgress sx={{ margin: "auto", display: "block" }} />;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        textAlign: "center",
-        padding: "20px",
-      }}
-    >
-      <Avatar
-        src={photoURL}
-        sx={{ width: 100, height: 100, mb: 2 }}
-      />
-      <input type="file" accept="image/*" onChange={handleUploadPhoto} />
-      {uploading && <CircularProgress sx={{ margin: "10px" }} />}
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "100vh", padding: "20px" }}>
+      <Avatar src={photoURL} sx={{ width: 100, height: 100, mb: 2 }} />
+      
+      <input type="file" accept="image/*" onChange={(e) => setNewPhoto(e.target.files[0])} />
       
       <Typography variant="h4">Welcome, {username}!</Typography>
 
-      {/* Username Field */}
-      <TextField
-        label="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        sx={{ marginBottom: "10px", width: "300px" }}
-      />
+      <TextField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} sx={{ marginBottom: "10px", width: "300px" }} />
+      
+      <TextField label="Clean Date" type="date" value={cleanDate} onChange={(e) => setCleanDate(e.target.value)} sx={{ marginBottom: "10px", width: "300px" }} InputLabelProps={{ shrink: true }} />
 
-      {/* Clean Date Field */}
-      <TextField
-        label="Clean Date"
-        type="date"
-        value={cleanDate}
-        onChange={(e) => setCleanDate(e.target.value)}
-        sx={{ marginBottom: "10px", width: "300px" }}
-        InputLabelProps={{ shrink: true }}
-      />
+      {cleanTime && <Typography variant="body1" sx={{ marginBottom: "10px" }}>{cleanTime}</Typography>}
 
-      {/* Display Clean Time */}
-      {cleanTime && (
-        <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-          {cleanTime}
-        </Typography>
-      )}
+      <Button variant="contained" color="primary" onClick={handleSaveProfile} sx={{ marginBottom: "10px" }}>Save Profile</Button>
 
-      {/* Save Button */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSaveProfile}
-        sx={{ marginBottom: "10px" }}
-      >
-        Save Profile
-      </Button>
-
-      {/* Logout Button */}
-      <Button variant="contained" color="error" onClick={handleLogout}>
-        Logout
-      </Button>
+      <Button variant="contained" color="error" onClick={handleLogout}>Logout</Button>
     </Box>
   );
 };

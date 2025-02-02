@@ -12,44 +12,47 @@ const Community = () => {
     const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
       const userList = snapshot.docs.map((doc) => {
         const data = doc.data();
-        let cleanDays = 0;
-        if (data.cleanDate) {
-          cleanDays = dayjs().diff(dayjs(data.cleanDate), "day");
-        }
         return {
           id: doc.id,
-          displayName: data.username || "Anonymous",
+          displayName: data.displayName || "Anonymous",
           cleanDate: data.cleanDate || null,
-          cleanDays,
-          photoURL: data.photoURL || "https://via.placeholder.com/100",
+          photoURL: data.photoURL || "",
         };
       });
 
-      // Sort users by longest clean time
-      setUsers(userList.sort((a, b) => b.cleanDays - a.cleanDays));
+      // Calculate clean time
+      const sortedUsers = userList.map((user) => {
+        let cleanDays = 0;
+        if (user.cleanDate) {
+          cleanDays = dayjs().diff(dayjs(user.cleanDate), "day");
+        }
+        return { ...user, cleanDays };
+      }).sort((a, b) => b.cleanDays - a.cleanDays); // Sort by longest clean time
+
+      setUsers(sortedUsers);
       setLoading(false);
     });
 
-    return () => unsubscribe(); // Unsubscribe from real-time updates
+    return () => unsubscribe(); // Cleanup
   }, []);
 
   return (
     <Box sx={{ padding: "20px", textAlign: "center" }}>
-      <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: "20px" }}>
-        Community Members
-      </Typography>
+      <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: "20px" }}>Community Members</Typography>
 
       {loading ? (
         <CircularProgress />
       ) : (
         users.map((user) => (
-          <Card key={user.id} sx={{ marginBottom: "10px", maxWidth: "500px", margin: "auto", padding: "10px", display: "flex", alignItems: "center" }}>
-            <Avatar src={user.photoURL} sx={{ width: 50, height: 50, marginRight: "10px" }} />
-            <CardContent>
-              <Typography variant="h6">{user.displayName}</Typography>
-              <Typography variant="body2" color="textSecondary">
-                {user.cleanDate ? `${user.cleanDays} Days Clean` : "Clean Time Not Set"}
-              </Typography>
+          <Card key={user.id} sx={{ marginBottom: "10px", maxWidth: "500px", margin: "auto" }}>
+            <CardContent sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Avatar src={user.photoURL} sx={{ width: 50, height: 50 }} />
+              <Box>
+                <Typography variant="h6">{user.displayName}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {user.cleanDate ? `${user.cleanDays} Days Clean` : "Clean Time Not Set"}
+                </Typography>
+              </Box>
             </CardContent>
           </Card>
         ))
