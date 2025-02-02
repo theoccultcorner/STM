@@ -27,7 +27,6 @@ const Navbar = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        // Check if user exists in Firestore
         const userRef = doc(db, "users", currentUser.uid);
         const userSnap = await getDoc(userRef);
 
@@ -75,22 +74,29 @@ const Navbar = () => {
     <>
       {/* Navbar */}
       <AppBar position="sticky" sx={{ backgroundColor: "black" }}>
-        <Toolbar>
-          {/* Mobile Menu Button */}
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ display: { xs: "block", md: "none" } }}
-            onClick={() => setDrawerOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          {/* Left Section (Menu for Mobile) */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ display: { xs: "block", md: "none" } }}
+              onClick={() => setDrawerOpen(true)}
+            >
+              <MenuIcon />
+            </IconButton>
 
-          {/* Website Title */}
-          <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: "none", color: "white" }}>
-            Sharing The Message
-          </Typography>
+            {/* Website Title */}
+            <Typography
+              variant="h6"
+              component={Link}
+              to="/"
+              sx={{ textDecoration: "none", color: "white", ml: 1 }}
+            >
+              Sharing The Message
+            </Typography>
+          </Box>
 
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
@@ -101,12 +107,32 @@ const Navbar = () => {
               <>
                 <Button color="inherit" component={Link} to="/profile">Profile</Button>
                 <Button color="error" onClick={handleLogout}>Logout</Button>
-                <Avatar src={user.photoURL} sx={{ width: 32, height: 32, marginLeft: "10px" }} />
+                <Avatar
+                  src={user.photoURL}
+                  sx={{ width: 40, height: 40, ml: 2, border: "2px solid white" }}
+                  component={Link}
+                  to="/profile"
+                />
               </>
             ) : (
               <Button color="inherit" onClick={handleLogin}>Login</Button>
             )}
           </Box>
+
+          {/* Mobile Avatar (Shows on XS only) */}
+          {user && (
+            <Avatar
+              src={user.photoURL}
+              sx={{
+                width: 40,
+                height: 40,
+                display: { xs: "block", md: "none" },
+                border: "2px solid white",
+              }}
+              component={Link}
+              to="/profile"
+            />
+          )}
         </Toolbar>
       </AppBar>
 
@@ -114,7 +140,7 @@ const Navbar = () => {
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpen(false)}>
           <List>
-            <ListItem button component={Link} to="/home">
+            <ListItem button component={Link} to="/">
               <ListItemText primary="Home" />
             </ListItem>
             <ListItem button component={Link} to="/about">
