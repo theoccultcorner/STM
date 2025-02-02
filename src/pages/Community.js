@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
-import { Box, Typography, Card, CardContent, CircularProgress } from "@mui/material";
+import { collection, onSnapshot } from "firebase/firestore";
+import { Box, Typography, Card, CardContent, CircularProgress, Avatar } from "@mui/material";
 import dayjs from "dayjs";
 
 const Community = () => {
@@ -9,37 +9,28 @@ const Community = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const usersCollection = collection(db, "users");
-        const userSnapshot = await getDocs(usersCollection);
-        const userList = userSnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            displayName: data.displayName || "Anonymous",
-            cleanDate: data.cleanDate || null,
-          };
-        });
+    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+      const userList = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        let cleanDays = 0;
+        if (data.cleanDate) {
+          cleanDays = dayjs().diff(dayjs(data.cleanDate), "day");
+        }
+        return {
+          id: doc.id,
+          displayName: data.username || "Anonymous",
+          cleanDate: data.cleanDate || null,
+          cleanDays,
+          photoURL: data.photoURL || "https://via.placeholder.com/100",
+        };
+      });
 
-        // Calculate clean time
-        const sortedUsers = userList.map((user) => {
-          let cleanDays = 0;
-          if (user.cleanDate) {
-            cleanDays = dayjs().diff(dayjs(user.cleanDate), "day");
-          }
-          return { ...user, cleanDays };
-        }).sort((a, b) => b.cleanDays - a.cleanDays); // Sort by longest clean time
+      // Sort users by longest clean time
+      setUsers(userList.sort((a, b) => b.cleanDays - a.cleanDays));
+      setLoading(false);
+    });
 
-        setUsers(sortedUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
+    return () => unsubscribe(); // Unsubscribe from real-time updates
   }, []);
 
   return (
@@ -52,7 +43,8 @@ const Community = () => {
         <CircularProgress />
       ) : (
         users.map((user) => (
-          <Card key={user.id} sx={{ marginBottom: "10px", maxWidth: "500px", margin: "auto" }}>
+          <Card key={user.id} sx={{ marginBottom: "10px", maxWidth: "500px", margin: "auto", padding: "10px", display: "flex", alignItems: "center" }}>
+            <Avatar src={user.photoURL} sx={{ width: 50, height: 50, marginRight: "10px" }} />
             <CardContent>
               <Typography variant="h6">{user.displayName}</Typography>
               <Typography variant="body2" color="textSecondary">

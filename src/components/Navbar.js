@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemText, Box, Avatar } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+  Avatar,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, provider, db } from "../firebaseConfig";
@@ -65,7 +77,13 @@ const Navbar = () => {
       <AppBar position="sticky" sx={{ backgroundColor: "black" }}>
         <Toolbar>
           {/* Mobile Menu Button */}
-          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ display: { xs: "block", md: "none" } }} onClick={() => setDrawerOpen(true)}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ display: { xs: "block", md: "none" } }}
+            onClick={() => setDrawerOpen(true)}
+          >
             <MenuIcon />
           </IconButton>
 
@@ -75,7 +93,7 @@ const Navbar = () => {
           </Typography>
 
           {/* Desktop Navigation */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/about">About</Button>
             <Button color="inherit" component={Link} to="/community">Community</Button>
