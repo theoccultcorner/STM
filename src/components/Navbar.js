@@ -100,7 +100,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
-            <Button color="inherit" component={Link} to="/">Home</Button>
+            <Button color="inherit" component={Link} to="/home">Home</Button>
             <Button color="inherit" component={Link} to="/about">About</Button>
             <Button color="inherit" component={Link} to="/community">Community</Button>
             {user ? (
@@ -140,7 +140,7 @@ const Navbar = () => {
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpen(false)}>
           <List>
-            <ListItem button component={Link} to="/">
+            <ListItem button component={Link} to="/home">
               <ListItemText primary="Home" />
             </ListItem>
             <ListItem button component={Link} to="/about">
