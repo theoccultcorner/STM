@@ -24,8 +24,8 @@ const HomePage = () => {
         src={logo}
         alt="Sharing The Message Logo"
         style={{
-          width: "120px", // Slightly bigger size
-          height: "120px",
+          width: "200x", // Slightly bigger size
+          height: "200px",
           marginBottom: "20px",
         }}
       />
