@@ -32,7 +32,8 @@ const App = () => {
       <Navbar />
       <Routes>
         {/* Public Pages */}
-        <Route path="/" element={user ? <Navigate to="/profile" /> : <HomePage />} />
+        <Route path="/" element={user ? <Navigate to="/profile" /> : <Profile />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/calender" element={<Calender />} />
         <Route path="/community" element={<Community />} />
