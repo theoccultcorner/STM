@@ -1,69 +1,133 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
-import { Box, Typography, Card, CardContent, CircularProgress } from "@mui/material";
-import dayjs from "dayjs";
+import React, { useState, useEffect } from 'react';
+import { auth, db } from '../firebaseConfig'; // Now db will be recognized
 
-const Community = () => {
-  const [users, setUsers] = useState([]);
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
+import { Box, Typography, TextField, Button, Avatar } from '@mui/material';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
+
+const Profile = () => {
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState('');
+  const [cleanDate, setCleanDate] = useState('');
+  const [cleanTime, setCleanTime] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const usersCollection = collection(db, "profiles");
-        const userSnapshot = await getDocs(usersCollection);
-        const userList = userSnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            displayName: data.username || "Anonymous",
-            cleanDate: data.cleanDate || null,
-          };
-        });
+    const fetchUserProfile = async () => {
+      if (auth.currentUser) {
+        const userRef = doc(db, 'profiles', auth.currentUser.uid);
+        const userSnap = await getDoc(userRef);
 
-        // Calculate clean time and sort users by longest clean time
-        const sortedUsers = userList.map((user) => {
-          let cleanDays = 0;
-          if (user.cleanDate) {
-            cleanDays = dayjs().diff(dayjs(user.cleanDate), "day");
-          }
-          return { ...user, cleanDays };
-        }).sort((a, b) => b.cleanDays - a.cleanDays); // Sort by longest clean time
-
-        setUsers(sortedUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          setUser(auth.currentUser);
+          setUsername(userData.username || 'Anonymous');
+          setCleanDate(userData.cleanDate || '');
+          calculateCleanTime(userData.cleanDate);
+        } else {
+          await setDoc(userRef, {
+            username: 'Anonymous',
+            cleanDate: '',
+          });
+          setUsername('Anonymous');
+        }
       }
+      setLoading(false);
     };
 
-    fetchUsers();
+    fetchUserProfile();
   }, []);
 
-  return (
-    <Box sx={{ padding: "20px", textAlign: "center" }}>
-      <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: "20px" }}>
-        Community Members
-      </Typography>
+  const calculateCleanTime = (date) => {
+    if (date) {
+      const cleanStartDate = dayjs(date);
+      const now = dayjs();
+      const diff = dayjs.duration(now.diff(cleanStartDate));
 
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        users.map((user) => (
-          <Card key={user.id} sx={{ marginBottom: "10px", maxWidth: "500px", margin: "auto" }}>
-            <CardContent>
-              <Typography variant="h6">{user.displayName}</Typography>
-              <Typography variant="body2" color="textSecondary">
-                {user.cleanDate ? `${user.cleanDays} Days Clean` : "Clean Time Not Set"}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))
+      setCleanTime(`${diff.years()} years, ${diff.months()} months, ${diff.days()} days clean`);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    if (!auth.currentUser) return;
+
+    const userRef = doc(db, 'profiles', auth.currentUser.uid);
+    await setDoc(userRef, { username, cleanDate }, { merge: true });
+    calculateCleanTime(cleanDate);
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    window.location.href = '/'; // Redirect to home page
+  };
+
+  if (loading) {
+    return <Typography variant="h6" align="center">Loading...</Typography>;
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        textAlign: 'center',
+        padding: '20px',
+      }}
+    >
+      <Avatar
+        src={user?.photoURL || ''}
+        sx={{ width: 100, height: 100, mb: 2 }}
+      />
+      <Typography variant="h4">Welcome, {username}!</Typography>
+
+      {/* Username Field */}
+      <TextField
+        label="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        sx={{ marginBottom: '10px', width: '300px' }}
+      />
+
+      {/* Clean Date Field */}
+      <TextField
+        label="Clean Date"
+        type="date"
+        value={cleanDate}
+        onChange={(e) => setCleanDate(e.target.value)}
+        sx={{ marginBottom: '10px', width: '300px' }}
+        InputLabelProps={{ shrink: true }}
+      />
+
+      {/* Display Clean Time */}
+      {cleanTime && (
+        <Typography variant="body1" sx={{ marginBottom: '10px' }}>
+          {cleanTime}
+        </Typography>
       )}
+
+      {/* Save Button */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSaveProfile}
+        sx={{ marginBottom: '10px' }}
+      >
+        Save Profile
+      </Button>
+
+      {/* Logout Button */}
+      <Button variant="contained" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
     </Box>
   );
 };
 
-export default Community;
+export default Profile;
