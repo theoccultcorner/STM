@@ -35,7 +35,7 @@ const HomePage = () => {
         Welcome to Sharing The Message
       </Typography>
       <Typography variant="body1" sx={{ maxWidth: '600px', marginTop: '10px', color: 'black' }}>
-        A Narcotics Anonymous group dedicated to hope, recovery, and sharing the message of healing. 
+        A Narcotics Anonymous group dedicated to hope, recovery, and sharing the message of healing.
         No matter where you are in your journey, you're not alone.
       </Typography>
 
@@ -43,7 +43,7 @@ const HomePage = () => {
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
         {/* Find a Meeting Button */}
         <Button
-          onClick={() => navigate('/calendar')} // Navigate to Calendar component
+          onClick={() => navigate('/calender')} // Navigate to Calendar component
           variant="contained"
           sx={{
             backgroundColor: 'blue',
@@ -56,20 +56,6 @@ const HomePage = () => {
           Find a Meeting
         </Button>
 
-        {/* New Button Next to "Find a Meeting" */}
-        <Button
-          onClick={() => navigate('/about')} // Navigate to About component (update path if needed)
-          variant="contained"
-          sx={{
-            backgroundColor: 'green',
-            color: 'white',
-            padding: '12px 24px',
-            borderRadius: '8px',
-            '&:hover': { backgroundColor: 'darkgreen' },
-          }}
-        >
-          Learn More
-        </Button>
       </Box>
     </Box>
   );
