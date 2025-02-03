@@ -16,17 +16,21 @@ const ImageGallery = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    arrows: true,
     responsive: [
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 2,
+          arrows: true,
         },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
+          arrows: true,
+          dots: true,
         },
       },
     ],
