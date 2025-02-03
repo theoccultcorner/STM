@@ -53,7 +53,7 @@ const Profile = () => {
     if (!auth.currentUser) return;
 
     const userRef = doc(db, "users", auth.currentUser.uid);
-    await setDoc(userRef, { displayName: username, cleanDate, photoURL }, { merge: true });
+    await setDoc(userRef, { displayName: username, cleanDate }, { merge: true });
 
     if (newPhoto) {
       const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
@@ -61,6 +61,15 @@ const Profile = () => {
       const downloadURL = await getDownloadURL(storageRef);
       setPhotoURL(downloadURL);
       await setDoc(userRef, { photoURL: downloadURL }, { merge: true });
+    }
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewPhoto(file);
+      const objectUrl = URL.createObjectURL(file);
+      setPhotoURL(objectUrl);
     }
   };
 
@@ -75,7 +84,7 @@ const Profile = () => {
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "100vh", padding: "20px" }}>
       <Avatar src={photoURL} sx={{ width: 100, height: 100, mb: 2 }} />
       
-      <input type="file" accept="image/*" onChange={(e) => setNewPhoto(e.target.files[0])} />
+      <input type="file" accept="image/*" onChange={handlePhotoChange} />
       
       <Typography variant="h4">Welcome, {username}!</Typography>
 
