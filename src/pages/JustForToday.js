@@ -9,11 +9,11 @@ const JustForToday = () => {
     const fetchJFT = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/https://www.jftna.org/jft/"
+          "https://api.allorigins.win/get?url=" + encodeURIComponent("https://www.jftna.org/jft/")
         );
 
         const parser = new DOMParser();
-        const doc = parser.parseFromString(response.data, "text/html");
+        const doc = parser.parseFromString(response.data.contents, "text/html");
 
         const title = doc.querySelector("h1")?.textContent?.trim() || "Just for Today";
         
