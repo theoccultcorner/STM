@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Modal, IconButton } from "@mui/material";
+import { Box, Modal, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -52,7 +52,10 @@ const ImageGallery = () => {
   };
 
   return (
-    <Box sx={{ padding: 2, marginTop: 4, position: "relative" }}>
+    <Box sx={{ padding: 2, marginTop: 4, position: "relative", textAlign: "center" }}>
+      <Typography variant="body1" sx={{ marginBottom: 1, fontStyle: "italic", color: "gray" }}>
+        Swipe or click the arrows to see more images
+      </Typography>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
