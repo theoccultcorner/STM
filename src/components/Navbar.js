@@ -67,10 +67,6 @@ const Navbar = () => {
     }
   };
 
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
-
   const handleNavigate = (path) => {
     navigate(path);
     setDrawerOpen(false);
@@ -105,7 +101,7 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/home">Home</Button>
             <Button color="inherit" component={Link} to="/about">About</Button>
             <Button color="inherit" component={Link} to="/community">Community</Button>
-            <Button color="inherit" component={Link} to="/justfortoday">Just for Today</Button>
+            <Button color="inherit" component={Link} to="/just-for-today">Just for Today</Button>
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Profile</Button>
@@ -121,24 +117,10 @@ const Navbar = () => {
               <Button color="inherit" onClick={handleLogin}>Login</Button>
             )}
           </Box>
-
-          {user && (
-            <Avatar
-              src={user.photoURL}
-              sx={{
-                width: 40,
-                height: 40,
-                display: { xs: "block", md: "none" },
-                border: "2px solid white",
-              }}
-              component={Link}
-              to="/profile"
-            />
-          )}
         </Toolbar>
       </AppBar>
 
-      <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
+      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation">
           <List>
             <ListItem button onClick={() => handleNavigate("/home")}>
@@ -147,7 +129,7 @@ const Navbar = () => {
             <ListItem button onClick={() => handleNavigate("/about")}>
               <ListItemText primary="About" />
             </ListItem>
-            <ListItem button onClick={() => handleNavigate("/justfortoday")}>
+            <ListItem button onClick={() => handleNavigate("/just-for-today")}>
               <ListItemText primary="Just for Today" />
             </ListItem>
             <ListItem button onClick={() => handleNavigate("/community")}>
