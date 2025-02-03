@@ -43,7 +43,7 @@ const HomePage = () => {
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
         {/* Find a Meeting Button */}
         <Button
-          onClick={() => navigate('/calendar')} // Navigate to Calendar component
+          onClick={() => navigate('/calender')} // Navigate to Calender component
           variant="contained"
           sx={{
             backgroundColor: 'blue',

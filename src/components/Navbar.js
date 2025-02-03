@@ -95,7 +95,7 @@ const Navbar = () => {
               to="/"
               sx={{ textDecoration: "none", color: "white", ml: 1 }}
             >
-              Sharing The Message
+              Narcotics Anonymous 
             </Typography>
           </Box>
 
