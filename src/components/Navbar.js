@@ -148,6 +148,9 @@ const Navbar = () => {
             <ListItem button component={Link} to="/about">
               <ListItemText primary="About" />
             </ListItem>
+            <ListItem> 
+            <Button color="inherit">Just for Today</Button>
+            </ListItem>
             <ListItem button component={Link} to="/community">
               <ListItemText primary="Community" />
             </ListItem>
