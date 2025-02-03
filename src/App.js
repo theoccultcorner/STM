@@ -11,6 +11,7 @@ import Community from "./pages/Community";
 import CCRNA from "./pages/CCRNA";
 import JustForToday from "./pages/JustForToday";
 import ImageGallery from "./pages/ImageGallery";
+import GSRReport from "./pages/GSRReport"; // Importing the new GSR Report page
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/ccrna" element={<CCRNA />} />
         <Route path="/just-for-today" element={<JustForToday />} />
         <Route path="/gallery" element={<ImageGallery />} />
+        <Route path="/gsrreport" element={<GSRReport />} /> {/* New Route for GSR Report */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />

@@ -15,22 +15,20 @@ const HomePage = () => {
         justifyContent: 'center',
         minHeight: '100vh',
         textAlign: 'center',
-        backgroundColor: '#FFFFFF', // Light gray background
+        backgroundColor: '#FFFFFF',
         padding: '20px',
       }}
     >
-      {/* Slightly Bigger Centered Logo */}
       <img
         src={logo}
         alt="Sharing The Message Logo"
         style={{
-          width: "200px", // Slightly bigger size
+          width: "200px",
           height: "200px",
           marginBottom: "20px",
         }}
       />
 
-      {/* Welcome Message */}
       <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
         Welcome to Sharing The Message
       </Typography>
@@ -39,11 +37,9 @@ const HomePage = () => {
         No matter where you are in your journey, you're not alone.
       </Typography>
 
-      {/* Button Container */}
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
-        {/* Find a Meeting Button */}
         <Button
-          onClick={() => navigate('/calender')} // Navigate to Calender component
+          onClick={() => navigate('/calender')}
           variant="contained"
           sx={{
             backgroundColor: 'blue',
@@ -56,9 +52,8 @@ const HomePage = () => {
           Find a Meeting
         </Button>
 
-        {/* CCRNA Button */}
         <Button
-          onClick={() => navigate('/ccrna')} // Navigate to CCRNA page
+          onClick={() => navigate('/ccrna')}
           variant="contained"
           sx={{
             backgroundColor: 'orange',
@@ -69,6 +64,21 @@ const HomePage = () => {
           }}
         >
           CCRNA
+        </Button>
+
+        {/* GSR Report Button */}
+        <Button
+          onClick={() => navigate('/gsrreport')}
+          variant="contained"
+          sx={{
+            backgroundColor: 'green',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            '&:hover': { backgroundColor: 'darkgreen' },
+          }}
+        >
+          GSR Report
         </Button>
       </Box>
     </Box>
