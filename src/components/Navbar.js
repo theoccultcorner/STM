@@ -102,7 +102,9 @@ const Navbar = () => {
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
             <Button color="inherit" component={Link} to="/home">Home</Button>
             <Button color="inherit" component={Link} to="/about">About</Button>
-            <Button color="inherit" component={Link} to="/community">Community</Button>
+            <Button color="inherit" component={Link} to="/community">Community</Button><Link to="/just-for-today">
+  <Button color="inherit">Just for Today</Button>
+</Link>
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Profile</Button>

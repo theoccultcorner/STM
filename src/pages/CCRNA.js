@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Typography, Button, Card, CardContent, Divider } from "@mui/material";
+import { Box, Typography, Button, Card, CardContent, Divider, Link } from "@mui/material";
 import logo from '../Logo2.png';
 
 const CCRNA = () => {
@@ -91,8 +91,13 @@ const CCRNA = () => {
               Basic Text, pg 19
             </Typography>
           </Box>
+
+          {/* Volunteer Button with External Link */}
           <Button
             variant="contained"
+            href="https://www.ccceinc.org/volunteer.html"
+            target="_blank"
+            rel="noopener noreferrer"
             sx={{
               backgroundColor: "#FFC107",
               color: "#4E342E",
@@ -103,8 +108,21 @@ const CCRNA = () => {
           >
             VOLUNTEER
           </Button>
+
+          {/* Clickable Volunteer Text */}
           <Typography variant="body2" sx={{ fontStyle: "italic", marginBottom: 2 }}>
-            We have opportunities available! Give back what was so freely given to you!
+            <Link
+              href="https://www.ccceinc.org/volunteer.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                textDecoration: "none",
+                color: "blue",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              We have opportunities available! Give back what was so freely given to you!
+            </Link>
           </Typography>
         </CardContent>
       </Card>
