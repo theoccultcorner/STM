@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent, Typography, Container } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const JustForToday = () => {
   const [jft, setJft] = useState({ title: "Loading...", content: "Fetching daily meditation..." });
@@ -26,7 +27,7 @@ const JustForToday = () => {
         rows.forEach(row => {
           let text = row.textContent.trim();
           if (text.includes("Page")) {
-            text = `\n\n${text}\n\n`;
+            text = `\n\n**${text}**\n\n`;
           } else if (/\d{1,2} [A-Za-z]+ \d{4}/.test(text)) {
             text = `\n\n### ${text} ###\n\n`;
           }
@@ -49,14 +50,19 @@ const JustForToday = () => {
     <Container maxWidth="md" style={{ marginTop: "20px" }}>
       <Card sx={{ padding: 3, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
+          <Typography variant="h4" component="h1" align="center" color="primary" gutterBottom>
             {jft.title}
           </Typography>
-          <Typography variant="body1" align="center" style={{ whiteSpace: "pre-line" }}>
+          <Typography variant="body1" align="left" style={{ whiteSpace: "pre-line" }}>
             {jft.content}
           </Typography>
         </CardContent>
       </Card>
+      <Typography variant="body2" align="center" style={{ marginTop: "20px" }}>
+        <Link to="/justfortoday" style={{ textDecoration: "none", color: "blue" }}>
+          Back to Just for Today
+        </Link>
+      </Typography>
     </Container>
   );
 };
