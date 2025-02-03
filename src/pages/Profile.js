@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { auth, db, storage } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signOut } from "firebase/auth";
-import { Box, Typography, TextField, Button, Avatar, CircularProgress, Snackbar } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
+import { Box, Typography, TextField, Button, Avatar, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
@@ -15,9 +13,7 @@ const Profile = () => {
   const [cleanDate, setCleanDate] = useState("");
   const [cleanTime, setCleanTime] = useState("");
   const [photoURL, setPhotoURL] = useState("");
-  const [newPhoto, setNewPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -53,29 +49,8 @@ const Profile = () => {
 
   const handleSaveProfile = async () => {
     if (!auth.currentUser) return;
-
     const userRef = doc(db, "users", auth.currentUser.uid);
     await setDoc(userRef, { displayName: username, cleanDate }, { merge: true });
-
-    if (newPhoto) {
-      const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
-      await uploadBytes(storageRef, newPhoto);
-      const downloadURL = await getDownloadURL(storageRef);
-      await setDoc(userRef, { photoURL: downloadURL }, { merge: true });
-      setPhotoURL(downloadURL);
-      setNewPhoto(null); // Reset newPhoto state after upload
-    }
-
-    setOpenSnackbar(true);
-  };
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewPhoto(file);
-      const objectUrl = URL.createObjectURL(file);
-      setPhotoURL(objectUrl);
-    }
   };
 
   const handleLogout = async () => {
@@ -83,18 +58,11 @@ const Profile = () => {
     window.location.href = "/";
   };
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
-
   if (loading) return <CircularProgress sx={{ margin: "auto", display: "block" }} />;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "100vh", padding: "20px" }}>
       <Avatar src={photoURL} sx={{ width: 100, height: 100, mb: 2 }} />
-      
-      <input type="file" accept="image/*" onChange={handlePhotoChange} />
-      
       <Typography variant="h4">Welcome, {username}!</Typography>
 
       <TextField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} sx={{ marginBottom: "10px", width: "300px" }} />
@@ -106,12 +74,6 @@ const Profile = () => {
       <Button variant="contained" color="primary" onClick={handleSaveProfile} sx={{ marginBottom: "10px" }}>Save Profile</Button>
 
       <Button variant="contained" color="error" onClick={handleLogout}>Logout</Button>
-      
-      <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-        <MuiAlert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          Profile saved successfully!
-        </MuiAlert>
-      </Snackbar>
     </Box>
   );
 };

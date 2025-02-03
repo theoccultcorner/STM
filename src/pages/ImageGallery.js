@@ -1,22 +1,37 @@
 import React, { useState } from "react";
 import { Box, Modal, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
 const images = Array.from({ length: 13 }, (_, i) => `/assets/${i + 1}.jpg`);
+
+const CustomPrevArrow = ({ onClick }) => (
+  <IconButton onClick={onClick} sx={{ position: "absolute", left: -40, top: "50%", transform: "translateY(-50%)", color: "black", backgroundColor: "rgba(255, 255, 255, 0.5)", borderRadius: "50%" }}>
+    <ArrowBackIos />
+  </IconButton>
+);
+
+const CustomNextArrow = ({ onClick }) => (
+  <IconButton onClick={onClick} sx={{ position: "absolute", right: -40, top: "50%", transform: "translateY(-50%)", color: "black", backgroundColor: "rgba(255, 255, 255, 0.5)", borderRadius: "50%" }}>
+    <ArrowForwardIos />
+  </IconButton>
+);
 
 const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
+    prevArrow: <CustomPrevArrow />, 
+    nextArrow: <CustomNextArrow />, 
     responsive: [
       {
         breakpoint: 768,
@@ -30,14 +45,14 @@ const ImageGallery = () => {
         settings: {
           slidesToShow: 1,
           arrows: true,
-          dots: true,
+          dots: false,
         },
       },
     ],
   };
 
   return (
-    <Box sx={{ padding: 2, marginTop: 4, marginBottom: 2 }}>
+    <Box sx={{ padding: 2, marginTop: 4, marginBottom: 4, position: "relative" }}>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
