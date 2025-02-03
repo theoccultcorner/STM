@@ -6,10 +6,11 @@ import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import Profile from "./pages/Profile";
-import Calender from "./pages/Calender"; // Keeping the original 'Calender' spelling
+import Calender from "./pages/Calender";
 import Community from "./pages/Community";
-import CCRNA from "./pages/CCRNA"; // Correct import for CCRNA
-import JustForToday from "./pages/JustForToday"; // Import Just for Today Component
+import CCRNA from "./pages/CCRNA";
+import JustForToday from "./pages/JustForToday";
+import ImageGallery from "./pages/ImageGallery";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -32,8 +33,9 @@ const App = () => {
         <Route path="/calender" element={<Calender />} />
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/" />} />
-        <Route path="/ccrna" element={<CCRNA />} /> {/* Correct route for CCRNA */}
-        <Route path="/just-for-today" element={<JustForToday />} /> {/* Just for Today Route */}
+        <Route path="/ccrna" element={<CCRNA />} />
+        <Route path="/just-for-today" element={<JustForToday />} />
+        <Route path="/gallery" element={<ImageGallery />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />

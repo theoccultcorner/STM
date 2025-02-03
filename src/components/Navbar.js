@@ -67,11 +67,6 @@ const Navbar = () => {
     }
   };
 
-  const handleNavigate = (path) => {
-    navigate(path);
-    setDrawerOpen(false);
-  };
-
   return (
     <>
       <AppBar position="sticky" sx={{ backgroundColor: "black" }}>
@@ -102,6 +97,7 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/about">About</Button>
             <Button color="inherit" component={Link} to="/community">Community</Button>
             <Button color="inherit" component={Link} to="/just-for-today">Just for Today</Button>
+            <Button color="inherit" component={Link} to="/gallery">Gallery</Button>
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Profile</Button>
@@ -123,21 +119,24 @@ const Navbar = () => {
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation">
           <List>
-            <ListItem button onClick={() => handleNavigate("/home")}>
+            <ListItem button onClick={() => navigate("/home")}>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button onClick={() => handleNavigate("/about")}>
+            <ListItem button onClick={() => navigate("/about")}>
               <ListItemText primary="About" />
             </ListItem>
-            <ListItem button onClick={() => handleNavigate("/just-for-today")}>
+            <ListItem button onClick={() => navigate("/just-for-today")}>
               <ListItemText primary="Just for Today" />
             </ListItem>
-            <ListItem button onClick={() => handleNavigate("/community")}>
+            <ListItem button onClick={() => navigate("/community")}>
               <ListItemText primary="Community" />
+            </ListItem>
+            <ListItem button onClick={() => navigate("/gallery")}>
+              <ListItemText primary="Gallery" />
             </ListItem>
             {user ? (
               <>
-                <ListItem button onClick={() => handleNavigate("/profile")}>
+                <ListItem button onClick={() => navigate("/profile")}>
                   <ListItemText primary="Profile" />
                 </ListItem>
                 <ListItem button onClick={handleLogout}>

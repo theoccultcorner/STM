@@ -61,8 +61,9 @@ const Profile = () => {
       const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
       await uploadBytes(storageRef, newPhoto);
       const downloadURL = await getDownloadURL(storageRef);
-      setPhotoURL(downloadURL);
       await setDoc(userRef, { photoURL: downloadURL }, { merge: true });
+      setPhotoURL(downloadURL);
+      setNewPhoto(null); // Reset newPhoto state after upload
     }
 
     setOpenSnackbar(true);
