@@ -24,7 +24,7 @@ const HomePage = () => {
         src={logo}
         alt="Sharing The Message Logo"
         style={{
-          width: "200x", // Slightly bigger size
+          width: "200px", // Slightly bigger size
           height: "200px",
           marginBottom: "20px",
         }}
@@ -39,21 +39,38 @@ const HomePage = () => {
         No matter where you are in your journey, you're not alone.
       </Typography>
 
-      {/* CTA Button */}
-      <Button
-        onClick={() => navigate('/calender')} // Navigate to Calendar component
-        variant="contained"
-        sx={{
-          backgroundColor: 'blue',
-          color: 'white',
-          padding: '12px 24px',
-          borderRadius: '8px',
-          marginTop: '20px',
-          '&:hover': { backgroundColor: 'darkblue' },
-        }}
-      >
-        Find a Meeting
-      </Button>
+      {/* Button Container */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+        {/* Find a Meeting Button */}
+        <Button
+          onClick={() => navigate('/calendar')} // Navigate to Calendar component
+          variant="contained"
+          sx={{
+            backgroundColor: 'blue',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            '&:hover': { backgroundColor: 'darkblue' },
+          }}
+        >
+          Find a Meeting
+        </Button>
+
+        {/* New Button Next to "Find a Meeting" */}
+        <Button
+          onClick={() => navigate('/about')} // Navigate to About component (update path if needed)
+          variant="contained"
+          sx={{
+            backgroundColor: 'green',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            '&:hover': { backgroundColor: 'darkgreen' },
+          }}
+        >
+          Learn More
+        </Button>
+      </Box>
     </Box>
   );
 };
