@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { auth } from "./firebaseConfig";
-import Navbar from "./components/Navbar"; // Assuming the Navbar is imported correctly
-import Footer from "./components/Footer"; // Assuming the Footer is imported correctly
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import Profile from "./pages/Profile";
@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/calender" element={<Calender />} />
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/" />} />
-        
+ 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
