@@ -23,7 +23,6 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Handle Authentication State
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -35,7 +34,7 @@ const Navbar = () => {
             displayName: "Anonymous",
             email: currentUser.email,
             photoURL: currentUser.photoURL || "",
-            cleanDate: null, // User can set later
+            cleanDate: null,
           });
         }
 
@@ -48,34 +47,39 @@ const Navbar = () => {
     return () => unsubscribe();
   }, []);
 
-  // Google Sign-In
   const handleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
-      navigate("/profile"); // Redirect to Profile after login
+      navigate("/profile");
     } catch (error) {
       console.error("Login Error:", error);
     }
   };
 
-  // Logout
   const handleLogout = async () => {
     try {
       await signOut(auth);
       setUser(null);
-      navigate("/"); // Redirect to home
+      navigate("/");
     } catch (error) {
       console.error("Logout Error:", error);
     }
   };
 
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    setDrawerOpen(false);
+  };
+
   return (
     <>
-      {/* Navbar */}
       <AppBar position="sticky" sx={{ backgroundColor: "black" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          {/* Left Section (Menu for Mobile) */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               edge="start"
@@ -87,7 +91,6 @@ const Navbar = () => {
               <MenuIcon />
             </IconButton>
 
-            {/* Website Title */}
             <Typography
               variant="h6"
               component={Link}
@@ -98,13 +101,11 @@ const Navbar = () => {
             </Typography>
           </Box>
 
-          {/* Desktop Navigation */}
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
             <Button color="inherit" component={Link} to="/home">Home</Button>
             <Button color="inherit" component={Link} to="/about">About</Button>
-            <Button color="inherit" component={Link} to="/community">Community</Button><Link to="/just-for-today">
-  <Button color="inherit" component={Link} to="/justfortoday">Just for Today</Button>
-</Link>
+            <Button color="inherit" component={Link} to="/community">Community</Button>
+            <Button color="inherit" component={Link} to="/justfortoday">Just for Today</Button>
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Profile</Button>
@@ -121,7 +122,6 @@ const Navbar = () => {
             )}
           </Box>
 
-          {/* Mobile Avatar (Shows on XS only) */}
           {user && (
             <Avatar
               src={user.photoURL}
@@ -138,26 +138,24 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Mobile Drawer */}
-      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpen(false)}>
+      <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
+        <Box sx={{ width: 250 }} role="presentation">
           <List>
-            <ListItem button component={Link} to="/home">
+            <ListItem button onClick={() => handleNavigate("/home")}>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button component={Link} to="/about">
+            <ListItem button onClick={() => handleNavigate("/about")}>
               <ListItemText primary="About" />
             </ListItem>
-            <ListItem button component={Link} to="/justfortoday">
-       
-            <ListItemText primary="JustForToday" />
+            <ListItem button onClick={() => handleNavigate("/justfortoday")}>
+              <ListItemText primary="Just for Today" />
             </ListItem>
-            <ListItem button component={Link} to="/community">
+            <ListItem button onClick={() => handleNavigate("/community")}>
               <ListItemText primary="Community" />
             </ListItem>
             {user ? (
               <>
-                <ListItem button component={Link} to="/profile">
+                <ListItem button onClick={() => handleNavigate("/profile")}>
                   <ListItemText primary="Profile" />
                 </ListItem>
                 <ListItem button onClick={handleLogout}>
