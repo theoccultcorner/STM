@@ -3,7 +3,7 @@ import { Box, Grid, Paper, Typography } from "@mui/material";
 
 const schedule = [
   { time: "9 AM", Sunday: "Ladies\nJaclyn", Monday: "", Tuesday: "", Wednesday: "", Thursday: "", Friday: "", Saturday: "" },
-  { time: "12 PM", Sunday: "", Monday: "Murl", Tuesday: "Peanut", Wednesday: "NOON\nMichael B\n2nd Wed Keytags\nStick Meeting", Thursday: "Cambria", Friday: "Quarter", Saturday: "T" },
+  { time: "12 PM", Sunday: "Joe", Monday: "Mark", Tuesday: "Peanut", Wednesday: "NOON\nMichael B\n2nd Wed Keytags\nStick Meeting", Thursday: "Cambria", Friday: "Quarter", Saturday: "T" },
   { time: "8 PM", Sunday: "Gregory", Monday: "Daniel M.", Tuesday: "Cynthia", Wednesday: "Analeigh", Thursday: "Dinah R.", Friday: "SPAD\nNellie P.", Saturday: "Michael B" },
 ];
 
