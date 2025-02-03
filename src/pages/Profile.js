@@ -3,7 +3,8 @@ import { auth, db, storage } from "../firebaseConfig";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signOut } from "firebase/auth";
-import { Box, Typography, TextField, Button, Avatar, CircularProgress } from "@mui/material";
+import { Box, Typography, TextField, Button, Avatar, CircularProgress, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
@@ -16,6 +17,7 @@ const Profile = () => {
   const [photoURL, setPhotoURL] = useState("");
   const [newPhoto, setNewPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -62,6 +64,8 @@ const Profile = () => {
       setPhotoURL(downloadURL);
       await setDoc(userRef, { photoURL: downloadURL }, { merge: true });
     }
+
+    setOpenSnackbar(true);
   };
 
   const handlePhotoChange = (e) => {
@@ -76,6 +80,10 @@ const Profile = () => {
   const handleLogout = async () => {
     await signOut(auth);
     window.location.href = "/";
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   if (loading) return <CircularProgress sx={{ margin: "auto", display: "block" }} />;
@@ -97,6 +105,12 @@ const Profile = () => {
       <Button variant="contained" color="primary" onClick={handleSaveProfile} sx={{ marginBottom: "10px" }}>Save Profile</Button>
 
       <Button variant="contained" color="error" onClick={handleLogout}>Logout</Button>
+      
+      <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+        <MuiAlert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Profile saved successfully!
+        </MuiAlert>
+      </Snackbar>
     </Box>
   );
 };
