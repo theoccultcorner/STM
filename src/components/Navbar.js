@@ -52,6 +52,7 @@ const Navbar = () => {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
       navigate("/profile");
+      setDrawerOpen(false);
     } catch (error) {
       console.error("Login Error:", error);
     }
@@ -62,9 +63,15 @@ const Navbar = () => {
       await signOut(auth);
       setUser(null);
       navigate("/");
+      setDrawerOpen(false);
     } catch (error) {
       console.error("Logout Error:", error);
     }
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    setDrawerOpen(false);
   };
 
   return (
@@ -119,24 +126,24 @@ const Navbar = () => {
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation">
           <List>
-            <ListItem button onClick={() => navigate("/home")}>
+            <ListItem button onClick={() => handleNavigate("/home")}>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button onClick={() => navigate("/about")}>
+            <ListItem button onClick={() => handleNavigate("/about")}>
               <ListItemText primary="About" />
             </ListItem>
-            <ListItem button onClick={() => navigate("/just-for-today")}>
+            <ListItem button onClick={() => handleNavigate("/just-for-today")}>
               <ListItemText primary="Just for Today" />
             </ListItem>
-            <ListItem button onClick={() => navigate("/community")}>
+            <ListItem button onClick={() => handleNavigate("/community")}>
               <ListItemText primary="Community" />
             </ListItem>
-            <ListItem button onClick={() => navigate("/gallery")}>
+            <ListItem button onClick={() => handleNavigate("/gallery")}>
               <ListItemText primary="Gallery" />
             </ListItem>
             {user ? (
               <>
-                <ListItem button onClick={() => navigate("/profile")}>
+                <ListItem button onClick={() => handleNavigate("/profile")}>
                   <ListItemText primary="Profile" />
                 </ListItem>
                 <ListItem button onClick={handleLogout}>
