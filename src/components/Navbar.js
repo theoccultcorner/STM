@@ -103,7 +103,7 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/home">Home</Button>
             <Button color="inherit" component={Link} to="/about">About</Button>
             <Button color="inherit" component={Link} to="/community">Community</Button><Link to="/just-for-today">
-  <Button color="inherit">Just for Today</Button>
+  <Button color="inherit" component={Link} to="/justfortoday">Just for Today</Button>
 </Link>
             {user ? (
               <>
@@ -149,7 +149,8 @@ const Navbar = () => {
               <ListItemText primary="About" />
             </ListItem>
             <ListItem> 
-            <Button color="inherit">Just for Today</Button>
+            <Button color="inherit" component={Link} to="/justfortoday">Just for Today</Button>
+            <ListItemText primary="JustForToday" />
             </ListItem>
             <ListItem button component={Link} to="/community">
               <ListItemText primary="Community" />
