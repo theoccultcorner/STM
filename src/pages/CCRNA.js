@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Button, Card, CardContent, Divider } from "@mui/material";
 import logo from '../Logo2.png';
+
 const CCRNA = () => {
   return (
     <Box
@@ -61,9 +62,17 @@ const CCRNA = () => {
             Registration opens at Noon on February 21st in Bakersfield!
           </Typography>
           <Divider sx={{ marginY: 2 }} />
-          <Box sx={{ marginBottom: 2 }}>
+          <Box
+            sx={{
+              marginBottom: 2,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             <img
-            src={logo}
+              src={logo}
               alt="CCRCNA Logo"
               style={{
                 width: "300px",
