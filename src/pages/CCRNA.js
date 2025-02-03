@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Button, Card, CardContent, Divider } from "@mui/material";
 import logo from '../Logo2.png';
 
 const CCRNA = () => {
+  useEffect(() => {
+    // Scroll to the top of the page when the component is mounted
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Box
       sx={{
