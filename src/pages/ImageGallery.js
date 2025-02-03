@@ -37,7 +37,7 @@ const ImageGallery = () => {
   };
 
   return (
-    <Box sx={{ padding: 2, marginTop: 4, marginBottom: 4 }}>
+    <Box sx={{ padding: 2, marginTop: 4, marginBottom: 2 }}>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
