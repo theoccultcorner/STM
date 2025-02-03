@@ -43,7 +43,7 @@ const HomePage = () => {
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
         {/* Find a Meeting Button */}
         <Button
-          onClick={() => navigate('/calender')} // Navigate to Calendar component
+          onClick={() => navigate('/calendar')} // Navigate to Calendar component
           variant="contained"
           sx={{
             backgroundColor: 'blue',
@@ -56,8 +56,21 @@ const HomePage = () => {
           Find a Meeting
         </Button>
 
+        {/* CCRNA Button */}
+        <Button
+          onClick={() => navigate('/ccrna')} // Navigate to CCRNA page
+          variant="contained"
+          sx={{
+            backgroundColor: 'orange',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            '&:hover': { backgroundColor: 'darkorange' },
+          }}
+        >
+          CCRNA
+        </Button>
       </Box>
-      
     </Box>
   );
 };

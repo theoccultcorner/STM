@@ -8,7 +8,7 @@ import AboutPage from "./pages/AboutPage";
 import Profile from "./pages/Profile";
 import Calender from "./pages/Calender"; // Keeping the original 'Calender' spelling
 import Community from "./pages/Community";
- 
+import CCRNA from "./pages/CCRNA"; // Correct import for CCRNA
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/calender" element={<Calender />} />
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/" />} />
- 
+        <Route path="/ccrna" element={<CCRNA />} /> {/* Correct route for CCRNA */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />

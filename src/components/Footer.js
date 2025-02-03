@@ -16,7 +16,7 @@ const Footer = () => {
       }}
     >
       <Typography variant="body2">
-        © 2025 Sharing The Message (STM). All Rights Reserved.
+        © 2025 Narcotics Anonymous (NA). All Rights Reserved.
       </Typography>
     </Box>
   );
