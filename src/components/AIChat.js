@@ -16,7 +16,7 @@ const AIChat = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_API}`,
+          "Authorization": `Bearer ${process.env.REACT_APP_OPENAI}`,
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
@@ -37,7 +37,7 @@ const AIChat = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "xi-api-key": `${process.env.REACT_APP_ELEVENLABS_API}`,
+          "xi-api-key": `${process.env.REACT_APP_ELEVENLABS}`,
         },
         body: JSON.stringify({
           text: aiResponse,
