@@ -12,6 +12,7 @@ import CCRNA from "./pages/CCRNA";
 import JustForToday from "./pages/JustForToday";
 import ImageGallery from "./pages/ImageGallery";
 import GSRReport from "./pages/GSRReport"; // Importing the new GSR Report page
+import AIChat from "./components/AIChat"; // Importing AIChat component
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -26,7 +27,7 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
+      <Navbar user={user} />
       <Routes>
         <Route path="/" element={user ? <Navigate to="/profile" /> : <HomePage />} />
         <Route path="/home" element={<HomePage />} />
@@ -38,6 +39,7 @@ const App = () => {
         <Route path="/just-for-today" element={<JustForToday />} />
         <Route path="/gallery" element={<ImageGallery />} />
         <Route path="/gsrreport" element={<GSRReport />} /> {/* New Route for GSR Report */}
+        <Route path="/ai-chat" element={<AIChat />} /> {/* New Route for AIChat */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
