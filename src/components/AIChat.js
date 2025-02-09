@@ -20,7 +20,7 @@ const AIChat = () => {
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
-          max_tokens: 100,
+          max_tokens: 200,
           messages: [
             { role: "system", content: "You are an AI trained to act as a Narcotics Anonymous sponsor. Provide brief guidance and encouragement based on the 12-step program." },
             { role: "user", content: input }
