@@ -79,7 +79,7 @@ const AIChat = () => {
           sx={{ mb: 2 }}
         />
         <Button variant="contained" color="primary" onClick={fetchAIResponse} disabled={loading}>
-          {loading ? "Loading..." : "Ask Sponsor"}
+          {loading ? "Loading..." : "Ask Leonard"}
         </Button>
         {response && <p style={{ marginTop: "1rem", color: "#333" }}>{response}</p>}
       </CardContent>
