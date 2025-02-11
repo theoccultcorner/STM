@@ -11,8 +11,9 @@ import Community from "./pages/Community";
 import CCRNA from "./pages/CCRNA";
 import JustForToday from "./pages/JustForToday";
 import ImageGallery from "./pages/ImageGallery";
-import GSRReport from "./pages/GSRReport"; // Importing the new GSR Report page
-import AIChat from "./components/AIChat"; // Importing AIChat component
+import GSRReport from "./pages/GSRReport";
+import AIChat from "./components/AIChat";
+import SpiritualPrinciple from "./pages/SpiritualPrinciple"; // Importing Spiritual Principle component
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -38,8 +39,9 @@ const App = () => {
         <Route path="/ccrna" element={<CCRNA />} />
         <Route path="/just-for-today" element={<JustForToday />} />
         <Route path="/gallery" element={<ImageGallery />} />
-        <Route path="/gsrreport" element={<GSRReport />} /> {/* New Route for GSR Report */}
-        <Route path="/ai-chat" element={<AIChat />} /> {/* New Route for AIChat */}
+        <Route path="/gsrreport" element={<GSRReport />} />
+        <Route path="/ai-chat" element={<AIChat />} />
+        <Route path="/spiritual-principle" element={<SpiritualPrinciple />} /> {/* New Route for Spiritual Principle */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
