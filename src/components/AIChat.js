@@ -89,7 +89,7 @@ const AIChat = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: 600, margin: "40px auto", padding: 2, boxShadow: 3, height: "80vh", display: "flex", flexDirection: "column" }}>
+    <Card sx={{ maxWidth: 600, margin: "20px auto", padding: 2, boxShadow: 3, height: "80vh", display: "flex", flexDirection: "column" }}>
       <CardContent sx={{ flexGrow: 1, overflowY: "auto", maxHeight: "60vh", display: "flex", flexDirection: "column-reverse", bgcolor: "#f9f9f9", padding: 2, borderRadius: 2 }}>
         {messages.length === 0 && (
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2, textAlign: "center" }}>
