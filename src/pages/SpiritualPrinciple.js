@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardContent, Typography, Container, Button, Box } from "@mui/material";
+import { Card, CardContent, Typography, Container, Button, Box, CircularProgress } from "@mui/material";
 
 const SpiritualPrinciple = () => {
   const [spad, setSpad] = useState({ title: "Loading...", content: "Fetching spiritual principle..." });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSPAD = async () => {
@@ -35,9 +36,11 @@ const SpiritualPrinciple = () => {
         content = extractedText.trim();
 
         setSpad({ title, content });
+        setIsLoading(false); // Set loading to false after the content is fetched
       } catch (error) {
         console.error("Error fetching SPAD:", error);
         setSpad({ title: "Error", content: "Failed to fetch Spiritual Principle of the Day." });
+        setIsLoading(false);
       }
     };
 
@@ -45,6 +48,11 @@ const SpiritualPrinciple = () => {
   }, []);
 
   const handleTextToSpeech = () => {
+    if (!window.speechSynthesis) {
+      alert("Text-to-Speech is not supported in your browser.");
+      return;
+    }
+
     const speech = new SpeechSynthesisUtterance(spad.content);
     speech.lang = 'en-US';
     window.speechSynthesis.speak(speech);
@@ -54,18 +62,26 @@ const SpiritualPrinciple = () => {
     <Container maxWidth="md" style={{ marginTop: "20px" }}>
       <Card sx={{ padding: 3, boxShadow: 3 }}>
         <CardContent>
-      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleTextToSpeech}>
-              🔊 Listen to SPAD
-            </Button>
-          </Box>
-          <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
-            {spad.title}
-          </Typography>
-          <Typography variant="body1" align="center" style={{ whiteSpace: "pre-line" }}>
-            {spad.content}
-          </Typography>
-       
+          {/* Show a loading spinner while content is being fetched */}
+          {isLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+                <Button variant="contained" color="primary" onClick={handleTextToSpeech} disabled={isLoading || !spad.content}>
+                  🔊 Listen to SPAD
+                </Button>
+              </Box>
+              <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
+                {spad.title}
+              </Typography>
+              <Typography variant="body1" align="center" style={{ whiteSpace: "pre-line" }}>
+                {spad.content}
+              </Typography>
+            </>
+          )}
         </CardContent>
       </Card>
     </Container>
