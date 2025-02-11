@@ -90,7 +90,7 @@ const AIChat = () => {
 
   return (
     <Card sx={{ maxWidth: 600, margin: "20px auto", padding: 2, boxShadow: 3, height: "80vh", display: "flex", flexDirection: "column" }}>
-      <CardContent sx={{ flexGrow: 1, overflowY: "auto", maxHeight: "70vh", display: "flex", flexDirection: "column-reverse", bgcolor: "#f9f9f9", padding: 2, borderRadius: 2 }}>
+      <CardContent sx={{ flexGrow: 1, overflowY: "auto", maxHeight: "65vh", display: "flex", flexDirection: "column-reverse", bgcolor: "#f9f9f9", padding: 2, borderRadius: 2 }}>
         {messages.length === 0 && (
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2, textAlign: "center" }}>
             Disclaimer: No information is stored on any server or database. All conversation history is kept only in your browser’s cache. To delete previous messages, clear your browser’s cache and history. This service is fully paid for by its anonymous creator, who respects privacy and ensures that it remains free for your use.
