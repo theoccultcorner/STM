@@ -4,6 +4,7 @@ import { Card, CardContent, Typography, Container, Button, Box } from "@mui/mate
 
 const JustForToday = () => {
   const [jft, setJft] = useState({ title: "Loading...", content: "Fetching daily meditation..." });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchJFT = async () => {
@@ -35,9 +36,11 @@ const JustForToday = () => {
         content = extractedText.trim();
 
         setJft({ title, content });
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching JFT:", error);
         setJft({ title: "Error", content: "Failed to fetch Just for Today." });
+        setIsLoading(false);
       }
     };
 
@@ -45,6 +48,11 @@ const JustForToday = () => {
   }, []);
 
   const handleTextToSpeech = () => {
+    if (!window.speechSynthesis) {
+      alert("Text-to-Speech is not supported in your browser.");
+      return;
+    }
+
     const speech = new SpeechSynthesisUtterance(jft.content);
     speech.lang = 'en-US';
     window.speechSynthesis.speak(speech);
@@ -54,18 +62,21 @@ const JustForToday = () => {
     <Container maxWidth="md" style={{ marginTop: "20px" }}>
       <Card sx={{ padding: 3, boxShadow: 3 }}>
         <CardContent>
-           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-        <Button variant="contained" color="primary" onClick={handleTextToSpeech}>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={handleTextToSpeech} 
+              disabled={isLoading || !jft.content}>
               🔊 Listen to JFT
             </Button>
           </Box>
           <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
-            {jft.title}
+            {isLoading ? "Loading..." : jft.title}
           </Typography>
           <Typography variant="body1" align="center" style={{ whiteSpace: "pre-line" }}>
-            {jft.content}
+            {isLoading ? "Fetching the content..." : jft.content}
           </Typography>
-       
         </CardContent>
       </Card>
     </Container>
