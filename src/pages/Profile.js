@@ -83,6 +83,7 @@ const Profile = () => {
         minHeight: "100vh",
         padding: "20px",
         backgroundColor: themeColor,
+        color: themeColor === "#000000" ? "white" : "black",
       }}
     >
       <Avatar src={photoURL} sx={{ width: 100, height: 100, mb: 2 }} />
@@ -92,7 +93,7 @@ const Profile = () => {
         label="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        sx={{ marginBottom: "10px", width: "300px" }}
+        sx={{ marginBottom: "10px", width: "300px", input: { color: themeColor === "#000000" ? "white" : "black" } }}
       />
 
       <TextField
@@ -101,7 +102,7 @@ const Profile = () => {
         rows={3}
         value={bio}
         onChange={(e) => setBio(e.target.value)}
-        sx={{ marginBottom: "10px", width: "300px" }}
+        sx={{ marginBottom: "10px", width: "300px", input: { color: themeColor === "#000000" ? "white" : "black" } }}
       />
 
       <TextField
@@ -109,7 +110,7 @@ const Profile = () => {
         type="date"
         value={cleanDate}
         onChange={(e) => setCleanDate(e.target.value)}
-        sx={{ marginBottom: "10px", width: "300px" }}
+        sx={{ marginBottom: "10px", width: "300px", input: { color: themeColor === "#000000" ? "white" : "black" } }}
         InputLabelProps={{ shrink: true }}
       />
 
