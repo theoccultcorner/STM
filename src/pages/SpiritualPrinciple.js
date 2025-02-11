@@ -54,17 +54,18 @@ const SpiritualPrinciple = () => {
     <Container maxWidth="md" style={{ marginTop: "20px" }}>
       <Card sx={{ padding: 3, boxShadow: 3 }}>
         <CardContent>
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleTextToSpeech}>
+              🔊 Listen to SPAD
+            </Button>
+          </Box>
           <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
             {spad.title}
           </Typography>
           <Typography variant="body1" align="center" style={{ whiteSpace: "pre-line" }}>
             {spad.content}
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleTextToSpeech}>
-              🔊 Listen to SPAD
-            </Button>
-          </Box>
+       
         </CardContent>
       </Card>
     </Container>
