@@ -93,8 +93,8 @@ const AIChat = () => {
       <CardContent sx={{ flexGrow: 1, overflowY: "auto", maxHeight: "52.5vh", display: "flex", flexDirection: "column-reverse", bgcolor: "#f9f9f9", padding: 2, borderRadius: 2 }}>
         {messages.length === 0 && (
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2, textAlign: "center" }}>
-                   Disclaimer: No information is stored on any server or database. All conversation history is kept only in your browser’s cache. To delete previous messages, clear your browser’s cache and history. This service is fully paid for by its anonymous creator, who respects privacy and ensures that it remains free for your use.
-              </Typography>
+                 Disclaimer: This AI chat does not store, track, or share any data with external servers or third parties. All conversation history is stored only in your browser’s cache and can be erased by clearing your cache and history. No records are kept beyond your local device. This service is fully funded by its anonymous creator, who values user privacy and ensures it will always remain free, secure, and accessible to all.
+                     </Typography>
         )}
         {messages.slice().reverse().map((msg, index) => (
           <Box key={index} sx={{
