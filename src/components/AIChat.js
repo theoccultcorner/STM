@@ -22,10 +22,12 @@ const AIChat = () => {
     setLoading(true);
     
     const newMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, newMessage]);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     setInput("");
     
     try {
+      console.log("Sending request to OpenAI API...");
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -35,17 +37,24 @@ const AIChat = () => {
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           max_tokens: 200,
-          messages: [...messages, newMessage],
+          messages: updatedMessages.map((msg) => ({ role: msg.role, content: msg.content })),
         }),
       });
       
+      if (!res.ok) {
+        throw new Error(`API Error: ${res.status} - ${res.statusText}`);
+      }
+      
       const data = await res.json();
+      console.log("API Response:", data);
+      
       const aiResponse = data.choices?.[0]?.message?.content || "No response";
       const botMessage = { role: "bot", content: aiResponse };
       
       setMessages((prev) => [...prev, botMessage]);
       
       // Convert AI response to speech
+      console.log("Fetching speech response...");
       const speechRes = await fetch("https://api.elevenlabs.io/v1/text-to-speech/M7R7e4SuLxy12UoVkVu9", {
         method: "POST",
         headers: {
