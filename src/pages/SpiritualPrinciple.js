@@ -9,17 +9,21 @@ const SpiritualPrinciple = () => {
   useEffect(() => {
     const fetchSPAD = async () => {
       try {
+        // Using CORS proxy - cors-anywhere
         const response = await axios.get(
-          "https://api.allorigins.win/get?url=" + encodeURIComponent("https://www.spadna.org/")
+          "https://cors-anywhere.herokuapp.com/" + encodeURIComponent("https://www.spadna.org/")
         );
 
+        // Check the response content
+        console.log("Response from SPAD:", response.data);
+
         const parser = new DOMParser();
-        const doc = parser.parseFromString(response.data.contents, "text/html");
+        const doc = parser.parseFromString(response.data, "text/html");
 
         const title = doc.querySelector("h1")?.textContent?.trim() || "Spiritual Principle of the Day";
-        
+
         let content = "Content not found.";
-        
+
         const rows = doc.querySelectorAll("table tr, div.content");
         let extractedText = "";
 
@@ -34,6 +38,10 @@ const SpiritualPrinciple = () => {
         });
 
         content = extractedText.trim();
+
+        if (!content) {
+          content = "No content found on the page.";
+        }
 
         setSpad({ title, content });
         setIsLoading(false); // Set loading to false after the content is fetched
