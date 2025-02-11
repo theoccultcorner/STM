@@ -5,23 +5,26 @@ import { Card, CardContent, Typography, Container, Button, Box, CircularProgress
 const SpiritualPrinciple = () => {
   const [spad, setSpad] = useState({ title: "Loading...", content: "Fetching spiritual principle..." });
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchSPAD = async () => {
       try {
-        // Using CORS proxy - cors-anywhere
+        // Using CORS proxy - cors-anywhere (Ensure it's working)
         const response = await axios.get(
           "https://cors-anywhere.herokuapp.com/" + encodeURIComponent("https://www.spadna.org/")
         );
 
-        // Check the response content
-        console.log("Response from SPAD:", response.data);
+        // Log the raw response data to see if it's correctly fetching
+        console.log("Raw HTML Response:", response.data);
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(response.data, "text/html");
 
+        // Check if the page title is available
         const title = doc.querySelector("h1")?.textContent?.trim() || "Spiritual Principle of the Day";
 
+        // Parse the content from the page
         let content = "Content not found.";
 
         const rows = doc.querySelectorAll("table tr, div.content");
@@ -47,7 +50,7 @@ const SpiritualPrinciple = () => {
         setIsLoading(false); // Set loading to false after the content is fetched
       } catch (error) {
         console.error("Error fetching SPAD:", error);
-        setSpad({ title: "Error", content: "Failed to fetch Spiritual Principle of the Day." });
+        setErrorMessage("Failed to fetch Spiritual Principle of the Day.");
         setIsLoading(false);
       }
     };
@@ -75,6 +78,10 @@ const SpiritualPrinciple = () => {
             <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
               <CircularProgress />
             </Box>
+          ) : errorMessage ? (
+            <Typography variant="h6" align="center" color="error">
+              {errorMessage}
+            </Typography>
           ) : (
             <>
               <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
