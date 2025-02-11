@@ -37,7 +37,7 @@ const HomePage = () => {
         No matter where you are in your journey, you're not alone.
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
         <Button
           onClick={() => navigate('/calender')}
           variant="contained"
@@ -66,7 +66,6 @@ const HomePage = () => {
           CCRNA
         </Button>
 
-        {/* GSR Report Button */}
         <Button
           onClick={() => navigate('/gsrreport')}
           variant="contained"
@@ -79,6 +78,21 @@ const HomePage = () => {
           }}
         >
           GSR Report
+        </Button>
+
+        {/* 7PM Zoom Meeting Button */}
+        <Button
+          onClick={() => window.open('https://us02web.zoom.us/j/82968986495?pwd=dE90RDdXWnlsREhpcUYwMGhpM3Q4dz09', '_blank')}
+          variant="contained"
+          sx={{
+            backgroundColor: 'purple',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            '&:hover': { backgroundColor: 'darkpurple' },
+          }}
+        >
+          7PM NA Zoom Meeting SM
         </Button>
       </Box>
     </Box>
