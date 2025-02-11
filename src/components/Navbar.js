@@ -105,7 +105,7 @@ const Navbar = () => {
             <Button color="inherit" component={Link} to="/community">Community</Button>
             <Button color="inherit" component={Link} to="/just-for-today">Just for Today</Button>
             <Button color="inherit" component={Link} to="/gallery">Gallery</Button>
-            {user && <Button color="inherit" component={Link} to="/ai-chat">Virtual Sponsor</Button>}
+            {user && <Button color="inherit" component={Link} to="/ai-chat">Ask Leonard</Button>}
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/profile">Profile</Button>
@@ -144,7 +144,7 @@ const Navbar = () => {
             </ListItem>
             {user && (
               <ListItem button onClick={() => handleNavigate("/ai-chat")}>
-                <ListItemText primary="AI Chat" />
+                <ListItemText primary="Ask Leonard" />
               </ListItem>
             )}
             {user ? (
