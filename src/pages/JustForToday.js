@@ -54,6 +54,9 @@ const JustForToday = () => {
     <Container maxWidth="md" style={{ marginTop: "20px" }}>
       <Card sx={{ padding: 3, boxShadow: 3 }}>
         <CardContent>
+        <Button variant="contained" color="primary" onClick={handleTextToSpeech}>
+              🔊 Listen to JFT
+            </Button>
           <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
             {jft.title}
           </Typography>
@@ -61,9 +64,7 @@ const JustForToday = () => {
             {jft.content}
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleTextToSpeech}>
-              🔊 Listen to JFT
-            </Button>
+       
           </Box>
         </CardContent>
       </Card>
