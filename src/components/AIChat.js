@@ -127,7 +127,7 @@ const AIChat = () => {
           sx={{ flexGrow: 1, marginRight: 1 }}
         />
         <Button variant="contained" color="primary" onClick={fetchAIResponse} disabled={loading}>
-          {loading ? "Loading..." : "Send"}
+          {loading ? "Loading..." : "Ask Leonard"}
         </Button>
       </Box>
     </Card>
