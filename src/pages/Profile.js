@@ -2,7 +2,18 @@ import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebaseConfig";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { signOut } from "firebase/auth";
-import { Box, Typography, TextField, Button, Avatar, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Avatar,
+  CircularProgress,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
@@ -13,6 +24,8 @@ const Profile = () => {
   const [cleanDate, setCleanDate] = useState("");
   const [cleanTime, setCleanTime] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+  const [bio, setBio] = useState("");
+  const [theme, setTheme] = useState("default");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,9 +38,11 @@ const Profile = () => {
           setUsername(userData.displayName || "Anonymous");
           setCleanDate(userData.cleanDate || "");
           setPhotoURL(userData.photoURL || "");
+          setBio(userData.bio || "");
+          setTheme(userData.theme || "default");
           calculateCleanTime(userData.cleanDate);
         } else {
-          setDoc(userRef, { displayName: "Anonymous", cleanDate: "", photoURL: "" });
+          setDoc(userRef, { displayName: "Anonymous", cleanDate: "", photoURL: "", bio: "", theme: "default" });
         }
         setLoading(false);
       });
@@ -50,7 +65,7 @@ const Profile = () => {
   const handleSaveProfile = async () => {
     if (!auth.currentUser) return;
     const userRef = doc(db, "users", auth.currentUser.uid);
-    await setDoc(userRef, { displayName: username, cleanDate }, { merge: true });
+    await setDoc(userRef, { displayName: username, cleanDate, bio, theme }, { merge: true });
   };
 
   const handleLogout = async () => {
@@ -61,19 +76,62 @@ const Profile = () => {
   if (loading) return <CircularProgress sx={{ margin: "auto", display: "block" }} />;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", minHeight: "100vh", padding: "20px" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        minHeight: "100vh",
+        padding: "20px",
+      }}
+    >
       <Avatar src={photoURL} sx={{ width: 100, height: 100, mb: 2 }} />
       <Typography variant="h4">Welcome, {username}!</Typography>
 
-      <TextField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} sx={{ marginBottom: "10px", width: "300px" }} />
-      
-      <TextField label="Clean Date" type="date" value={cleanDate} onChange={(e) => setCleanDate(e.target.value)} sx={{ marginBottom: "10px", width: "300px" }} InputLabelProps={{ shrink: true }} />
+      <TextField
+        label="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        sx={{ marginBottom: "10px", width: "300px" }}
+      />
+
+      <TextField
+        label="Bio"
+        multiline
+        rows={3}
+        value={bio}
+        onChange={(e) => setBio(e.target.value)}
+        sx={{ marginBottom: "10px", width: "300px" }}
+      />
+
+      <TextField
+        label="Clean Date"
+        type="date"
+        value={cleanDate}
+        onChange={(e) => setCleanDate(e.target.value)}
+        sx={{ marginBottom: "10px", width: "300px" }}
+        InputLabelProps={{ shrink: true }}
+      />
 
       {cleanTime && <Typography variant="body1" sx={{ marginBottom: "10px" }}>{cleanTime}</Typography>}
 
-      <Button variant="contained" color="primary" onClick={handleSaveProfile} sx={{ marginBottom: "10px" }}>Save Profile</Button>
+      <FormControl sx={{ width: "300px", marginBottom: "10px" }}>
+        <InputLabel>Theme</InputLabel>
+        <Select value={theme} onChange={(e) => setTheme(e.target.value)}>
+          <MenuItem value="default">Default</MenuItem>
+          <MenuItem value="dark">Dark Mode</MenuItem>
+          <MenuItem value="light">Light Mode</MenuItem>
+          <MenuItem value="colorful">Colorful</MenuItem>
+        </Select>
+      </FormControl>
 
-      <Button variant="contained" color="error" onClick={handleLogout}>Logout</Button>
+      <Button variant="contained" color="primary" onClick={handleSaveProfile} sx={{ marginBottom: "10px" }}>
+        Save Profile
+      </Button>
+
+      <Button variant="contained" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
     </Box>
   );
 };
