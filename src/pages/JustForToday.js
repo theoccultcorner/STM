@@ -9,9 +9,10 @@ const JustForToday = () => {
   useEffect(() => {
     const fetchJFT = async () => {
       try {
-        const response = await axios.get(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent("https://www.jftna.org/jft/")}`
-        );
+        // Use your local CORS proxy
+        const proxyUrl = "http://localhost:8080/"; // Change this if deployed
+        const targetUrl = "https://www.jftna.org/jft/";
+        const response = await axios.get(`${proxyUrl}${encodeURIComponent(targetUrl)}`);
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(response.data, "text/html");
@@ -37,7 +38,6 @@ const JustForToday = () => {
         });
 
         content = extractedText.trim();
-
         setJft({ title, content });
       } catch (error) {
         console.error("Error fetching JFT:", error);
