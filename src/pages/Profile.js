@@ -9,10 +9,9 @@ import {
   Button,
   Avatar,
   CircularProgress,
-  MenuItem,
-  Select,
   InputLabel,
   FormControl,
+  Slider,
 } from "@mui/material";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -25,7 +24,7 @@ const Profile = () => {
   const [cleanTime, setCleanTime] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [bio, setBio] = useState("");
-  const [theme, setTheme] = useState("default");
+  const [themeColor, setThemeColor] = useState("#000000");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,10 +38,10 @@ const Profile = () => {
           setCleanDate(userData.cleanDate || "");
           setPhotoURL(userData.photoURL || "");
           setBio(userData.bio || "");
-          setTheme(userData.theme || "default");
+          setThemeColor(userData.themeColor || "#000000");
           calculateCleanTime(userData.cleanDate);
         } else {
-          setDoc(userRef, { displayName: "Anonymous", cleanDate: "", photoURL: "", bio: "", theme: "default" });
+          setDoc(userRef, { displayName: "Anonymous", cleanDate: "", photoURL: "", bio: "", themeColor: "#000000" });
         }
         setLoading(false);
       });
@@ -65,7 +64,7 @@ const Profile = () => {
   const handleSaveProfile = async () => {
     if (!auth.currentUser) return;
     const userRef = doc(db, "users", auth.currentUser.uid);
-    await setDoc(userRef, { displayName: username, cleanDate, bio, theme }, { merge: true });
+    await setDoc(userRef, { displayName: username, cleanDate, bio, themeColor }, { merge: true });
   };
 
   const handleLogout = async () => {
@@ -83,6 +82,7 @@ const Profile = () => {
         alignItems: "center",
         minHeight: "100vh",
         padding: "20px",
+        backgroundColor: themeColor,
       }}
     >
       <Avatar src={photoURL} sx={{ width: 100, height: 100, mb: 2 }} />
@@ -116,13 +116,8 @@ const Profile = () => {
       {cleanTime && <Typography variant="body1" sx={{ marginBottom: "10px" }}>{cleanTime}</Typography>}
 
       <FormControl sx={{ width: "300px", marginBottom: "10px" }}>
-        <InputLabel>Theme</InputLabel>
-        <Select value={theme} onChange={(e) => setTheme(e.target.value)}>
-          <MenuItem value="default">Default</MenuItem>
-          <MenuItem value="dark">Dark Mode</MenuItem>
-          <MenuItem value="light">Light Mode</MenuItem>
-          <MenuItem value="colorful">Colorful</MenuItem>
-        </Select>
+        <InputLabel>Theme Color</InputLabel>
+        <input type="color" value={themeColor} onChange={(e) => setThemeColor(e.target.value)} style={{ width: "100%", height: "40px", border: "none" }} />
       </FormControl>
 
       <Button variant="contained" color="primary" onClick={handleSaveProfile} sx={{ marginBottom: "10px" }}>
