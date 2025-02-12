@@ -10,13 +10,15 @@ const SpiritualPrinciple = () => {
   useEffect(() => {
     const fetchSPAD = async () => {
       try {
-        // Use your local CORS proxy
-        const proxyUrl = "http://localhost:8080/"; // Change this if deployed
+        // Use your local or deployed CORS proxy
+        const proxyUrl = "http://localhost:8080/proxy?url="; // Change this if deployed
         const targetUrl = "https://www.spadna.org/";
-        const response = await axios.get(`${proxyUrl}${encodeURIComponent(targetUrl)}`);
 
-        // Log the raw response data to debug
-        console.log("Raw HTML Response:", response.data);
+        console.log("Fetching SPAD from:", proxyUrl + encodeURIComponent(targetUrl)); // Debug log
+
+        const response = await axios.get(proxyUrl + encodeURIComponent(targetUrl));
+
+        console.log("Raw HTML Response:", response.data); // Debug log
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(response.data, "text/html");
@@ -47,6 +49,14 @@ const SpiritualPrinciple = () => {
         setSpad({ title, content });
       } catch (error) {
         console.error("Error fetching SPAD:", error);
+        if (error.response) {
+          console.error("Response Data:", error.response.data);
+          console.error("Status Code:", error.response.status);
+        } else if (error.request) {
+          console.error("Request Error (No response received)");
+        } else {
+          console.error("Axios Error:", error.message);
+        }
         setErrorMessage("Failed to fetch Spiritual Principle of the Day.");
       } finally {
         setIsLoading(false);
