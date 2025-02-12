@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardContent, Typography, Container, Button, Box } from "@mui/material";
+import { Card, CardContent, Typography, Container, Button, Box, CircularProgress } from "@mui/material";
 
 const JustForToday = () => {
   const [jft, setJft] = useState({ title: "Loading...", content: "Fetching daily meditation..." });
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchJFT = async () => {
       try {
-        // Use your local CORS proxy
-        const proxyUrl = "http://localhost:8080/"; // Change this if deployed
+        // Use your local or deployed CORS proxy
+        const proxyUrl = "http://localhost:8080/proxy?url="; // Change this if deployed
         const targetUrl = "https://www.jftna.org/jft/";
-        const response = await axios.get(`${proxyUrl}${encodeURIComponent(targetUrl)}`);
+
+        console.log("Fetching JFT from:", proxyUrl + encodeURIComponent(targetUrl)); // Debug log
+
+        const response = await axios.get(proxyUrl + encodeURIComponent(targetUrl));
+
+        console.log("Raw HTML Response:", response.data); // Debug log
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(response.data, "text/html");
@@ -41,7 +47,7 @@ const JustForToday = () => {
         setJft({ title, content });
       } catch (error) {
         console.error("Error fetching JFT:", error);
-        setJft({ title: "Error", content: "Failed to fetch Just for Today." });
+        setErrorMessage("Failed to fetch Just for Today.");
       } finally {
         setIsLoading(false);
       }
@@ -65,22 +71,34 @@ const JustForToday = () => {
     <Container maxWidth="md" sx={{ marginTop: "20px" }}>
       <Card sx={{ padding: 3, boxShadow: 3 }}>
         <CardContent>
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleTextToSpeech}
-              disabled={isLoading || !jft.content}
-            >
-              🔊 Listen to JFT
-            </Button>
-          </Box>
-          <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
-            {isLoading ? "Loading..." : jft.title}
-          </Typography>
-          <Typography variant="body1" align="center" sx={{ whiteSpace: "pre-line" }}>
-            {isLoading ? "Fetching the content..." : jft.content}
-          </Typography>
+          {isLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : errorMessage ? (
+            <Typography variant="h6" align="center" color="error">
+              {errorMessage}
+            </Typography>
+          ) : (
+            <>
+              <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleTextToSpeech}
+                  disabled={isLoading || !jft.content}
+                >
+                  🔊 Listen to JFT
+                </Button>
+              </Box>
+              <Typography variant="h4" component="h1" align="center" color="black" gutterBottom>
+                {jft.title}
+              </Typography>
+              <Typography variant="body1" align="center" sx={{ whiteSpace: "pre-line" }}>
+                {jft.content}
+              </Typography>
+            </>
+          )}
         </CardContent>
       </Card>
     </Container>
