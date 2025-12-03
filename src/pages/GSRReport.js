@@ -19,7 +19,7 @@ const GSRReport = () => {
       }}
     >
       <Typography variant="h4" sx={{ textAlign: "center", marginBottom: "20px", fontWeight: "bold" }}>
-        STM GSR Report February 2025
+        STM GSR Report December 2025
       </Typography>
 
       <Divider sx={{ marginY: "20px" }} />
@@ -29,9 +29,15 @@ const GSRReport = () => {
           Positions Available
         </Typography>
         <List>
-          <ListItem>Participate in Your Recovery. STM Group Vice-Chair, Secretary, Literature & GSR needed.</ListItem>
-          <ListItem>Wednesday & Friday Noon Secretary Position Open.</ListItem>
-          <ListItem>Meeting Service Representatives (MSRs) needed.</ListItem>
+          <ListItem>
+            STM GROUP POSITIONS OPEN: Vice-Chair, GSR & Literature
+          </ListItem>
+          <ListItem>
+            Participate in Your Recovery: Sunday 8pm Secretary Position open. Election on Dec. 14th.
+          </ListItem>
+          <ListItem>
+            Greeters, Coffee Persons & Meeting Service Reps (MSRs) needed for ALL STM Meetings.
+          </ListItem>
         </List>
       </section>
 
@@ -42,19 +48,28 @@ const GSRReport = () => {
           Meeting News
         </Typography>
         <List>
-          <ListItem>STM Men’s Stag Meeting: Sign-up Sheets Posted</ListItem>
-          <ListItem>STM Women’s Meeting, Sunday @ 9am needs support.</ListItem>
-          <ListItem>Guad Squad NA Wednesday Meetings @ 7pm, 950A Guadalupe St.</ListItem>
           <ListItem>
-            Survivors Bday/Speaker Mtgs: 605 E. Chapel St.
+            STM Men’s Stag Meeting: Tuesdays @ 6:30pm needs support.
+          </ListItem>
+          <ListItem>
+            STM Women’s Book Study Meeting: Thursdays @ 6:30pm needs support. Keytags 1st Thursday.
+          </ListItem>
+          <ListItem>
+            Guad Squad: Wednesday @ 7pm: 4635 6th Street.
+          </ListItem>
+          <ListItem>
+            Survivors Bday/Speaker Mtgs:
             <List sx={{ paddingLeft: "20px" }}>
-              <ListItem>Sat, Feb. 15th & Wed, Feb. 26th @ 6pm</ListItem>
+              <ListItem>
+                Sat. Dec. 20th – Glenn S. & Wed. Dec. 31st – Ralphie V. @ 6pm
+              </ListItem>
             </List>
           </ListItem>
-          <ListItem>STM Birthday Mtg Saturday Feb. 22nd @ 8pm. No Speaker due to Convention.</ListItem>
-          <ListItem>STM Activities Committee Mtg Feb. 8th @ 9am. Support upcoming STM Activities.</ListItem>
           <ListItem>
-            STM Group Service Committee Mtg is Feb. 8th @ 10am. All Meeting Secretaries or Meeting Representatives required to attend. Come support STM & attend Group Service.
+            STM Activities/Group Service Committee Meeting December 13th @ 9am & 10am.
+          </ListItem>
+          <ListItem sx={{ paddingLeft: "20px" }}>
+            Come support STM Activities. All Meeting Secretaries required to attend Group Service @ 10.
           </ListItem>
         </List>
       </section>
@@ -63,13 +78,23 @@ const GSRReport = () => {
 
       <section>
         <Typography variant="h5" sx={{ marginBottom: "10px", fontWeight: "bold" }}>
-          Activities
+          Activities Flyers Posted
         </Typography>
         <List>
-          <ListItem>STM Co-Ed Softball Team: Sign-up Sheets Posted.</ListItem>
-          <ListItem>CCNA Not Today, Cupid Roller Skate Feb. 15th @ 7:30pm, Santa Maria Skating Rink</ListItem>
           <ListItem>
-            NA 33rd Central California Regional Convention @ Marriott Hotel/Mechanics Bank Arena, Bakersfield Feb. 21st-23rd
+            New Attitudes Annual Men’s Brunch: Dec. 14th @ 11am. All Welcome. Donations accepted.
+          </ListItem>
+          <ListItem>
+            SBNA Deck the Halls @ 235 E. Cota St, SB: Saturday, Dec. 20th 3–10pm. Presale Tix $30.
+          </ListItem>
+          <ListItem>
+            STM New Year Speaker Bash/Dinner/Karaoke/Dance: Wed, Dec. 31st Speaker @ 1:30pm: Gregory W.
+          </ListItem>
+          <ListItem sx={{ paddingLeft: "20px" }}>
+            Speakers Sign-ups for 2:30, 3:30, 4:30pm. Dinner/Karaoke @ 6–8pm. Speaker @ 8pm.
+          </ListItem>
+          <ListItem sx={{ paddingLeft: "20px" }}>
+            Dance 9pm – 12:30am. Event is free. Plates $10. Kids eat free.
           </ListItem>
         </List>
       </section>
@@ -81,15 +106,29 @@ const GSRReport = () => {
           Other NA Announcements
         </Typography>
         <List>
-          <ListItem>STM Venmo & CashApp: 7th donations, Literature Sales & Activities. Please tag $ w/info.</ListItem>
-          <ListItem>STM hoodies, t-shirts, caps, coffee cups for sale. Order sheet posted.</ListItem>
-          <ListItem>Celebrating a milestone in your recovery? Put your name & clean time on board.</ListItem>
-          <ListItem>PR, H&I & Behind the Walls Sponsorship needs volunteers. Info posted.</ListItem>
+          <ListItem>
+            STM Spanish NA Literature for sale now.
+          </ListItem>
+          <ListItem>
+            STM Venmo & CashApp: Please tag $ w/info.
+          </ListItem>
+          <ListItem>
+            STM GEAR for sale. Order sheet posted.
+          </ListItem>
+          <ListItem>
+            Celebrating a milestone in your recovery? Put your name, clean date & time on board.
+          </ListItem>
+          <ListItem>
+            PR, H&I & Behind the Walls Sponsorship needs volunteers. Info posted.
+          </ListItem>
           <ListItem>
             NA Area Information @{" "}
-            <Link href="http://centralcoastna.org" target="_blank" rel="noopener">
+            <Link href="https://centralcoastna.org" target="_blank" rel="noopener">
               centralcoastna.org
             </Link>
+          </ListItem>
+          <ListItem>
+            Are there any other NA Announcements from the floor?
           </ListItem>
         </List>
       </section>
